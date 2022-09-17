@@ -1,11 +1,19 @@
 import { gql } from '@apollo/client'
 import type { GetServerSideProps, GetServerSidePropsContext, NextPage } from 'next'
 import Head from 'next/head'
+import { useEffect } from 'react'
 import client from '../components/graphql/client'
 import Navbar from '../components/layouts/navbar'
 import AddContactButton from '../components/reusables/addContactButton'
 
-const Home: NextPage = () => {
+const Home: NextPage = (props: any) => {
+
+  useEffect(() => {
+    console.log(props.contacts);
+    if (localStorage.getItem("contacts") === null) {
+      
+    }
+  }, []);
   return (
     <div>
       <Head>
