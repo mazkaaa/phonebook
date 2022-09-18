@@ -1,17 +1,41 @@
 import { gql } from '@apollo/client'
 import type { GetServerSideProps, GetServerSidePropsContext, NextPage } from 'next'
 import Head from 'next/head'
-import { useEffect } from 'react'
+import { useContext, useEffect } from 'react'
+import { PhonebookContext, PhonebookProvider } from '../components/context/PhonebookProvider'
 import client from '../components/graphql/client'
 import Navbar from '../components/layouts/navbar'
 import AddContactButton from '../components/reusables/addContactButton'
 
 const Home: NextPage = (props: any) => {
-
+  const phonebookContext = useContext(PhonebookContext);
   useEffect(() => {
     console.log(props.contacts);
     if (localStorage.getItem("contacts") === null) {
-      
+      console.log("localStorage empty");
+      const tempArray = props.contacts as [];
+      const contactDetail: { created_at: string; first_name: string; last_name: string; id: number; phones: any[] }[] = [];
+      const phoneNumber: any[] = [];
+      tempArray.forEach((item: {
+        created_at: string,
+        first_name: string,
+        last_name: string,
+        id: number,
+        phones: any[],
+      }) => {
+        phoneNumber.splice(0, phoneNumber.length);
+        item.phones.forEach((number) => {
+          phoneNumber.push(number.number);
+        });
+        contactDetail.push({
+          created_at: item.created_at,
+          first_name: item.first_name,
+          last_name: item.last_name,
+          id: item.id,
+          phones: phoneNumber,
+        });
+      })
+      localStorage.setItem("contacts", JSON.stringify(contactDetail));
     }
   }, []);
   return (
