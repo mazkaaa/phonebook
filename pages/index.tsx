@@ -15,7 +15,6 @@ const Home: NextPage = (props: any) => {
       console.log("localStorage empty");
       const tempArray = props.contacts as [];
       const contactDetail: { created_at: string; first_name: string; last_name: string; id: number; phones: any[] }[] = [];
-      const phoneNumber: any[] = [];
       tempArray.forEach((item: {
         created_at: string,
         first_name: string,
@@ -23,16 +22,12 @@ const Home: NextPage = (props: any) => {
         id: number,
         phones: any[],
       }) => {
-        phoneNumber.splice(0, phoneNumber.length);
-        item.phones.forEach((number) => {
-          phoneNumber.push(number.number);
-        });
         contactDetail.push({
           created_at: item.created_at,
           first_name: item.first_name,
           last_name: item.last_name,
           id: item.id,
-          phones: phoneNumber,
+          phones: item.phones.map((phone) => phone.number),
         });
       })
       localStorage.setItem("contacts", JSON.stringify(contactDetail));
