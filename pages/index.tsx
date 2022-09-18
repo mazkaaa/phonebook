@@ -58,7 +58,7 @@ export const getServerSideProps: GetServerSideProps = async (context: GetServerS
   });
   return {
     props: {
-      contacts: data,
+      contacts: data.contact,
     }
   }
 }
