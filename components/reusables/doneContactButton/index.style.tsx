@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-export const AddButtonStyled = styled.button`
+export const DoneButtonStyled = styled.button`
   background-color: white;
   position: fixed;
   bottom: 5vh;
@@ -9,7 +9,7 @@ export const AddButtonStyled = styled.button`
   width: 7vh;
   border: 0 solid blue;
   border-radius: 100px;
-  font-size: 2em;
+  font-size: 1.5em;
   font-weight: bold;
   display: flex;
   justify-content: center;

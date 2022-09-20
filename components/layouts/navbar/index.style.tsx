@@ -9,5 +9,7 @@ export const NavbarStyled = styled.div`
   align-items: center;
   background-color: #1446A0;
   height: 7.5vh;
+  position: fixed;
+  top: 0;
   
 `

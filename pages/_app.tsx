@@ -1,14 +1,17 @@
-import '../styles/globals.css'
 import type { AppProps } from 'next/app'
-import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
+import { ApolloProvider } from '@apollo/client'
 import client from '../components/graphql/client'
 import ContextProvider from '../components/context'
+import Layout from '../components/layouts'
 
+// eslint-disable-next-line require-jsdoc
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ApolloProvider client={client}>
       <ContextProvider>
-        <Component {...pageProps} />
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
       </ContextProvider>
     </ApolloProvider>
   )
