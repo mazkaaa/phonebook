@@ -4,6 +4,7 @@ import React from 'react'
 import Navbar from "./navbar";
 import Head from "next/head";
 import { css, Global } from "@emotion/react";
+import Link from "next/link";
 
 const Layout = (props: any) => {
   return (
@@ -35,7 +36,9 @@ const Layout = (props: any) => {
         `
       } />
       <Navbar>
-        <h3>PhoneBook</h3>
+        <Link href="/">
+          <a><h3>PhoneBook</h3></a>
+        </Link>
       </Navbar>
       {props.children}
     </LayoutStyled>
