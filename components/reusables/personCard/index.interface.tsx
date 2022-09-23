@@ -3,7 +3,6 @@ export interface PersonCardInterface {
   last_name: string,
   id: number,
   created_at: string,
-  phones: [{
-    number: string
-  }]
+  phones: { number: string }[],
+  favorite: boolean
 };

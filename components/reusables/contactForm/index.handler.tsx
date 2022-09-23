@@ -1,43 +1,37 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useContext } from "react";
+import { PhonebookContext } from "../../context/PhonebookProvider";
 
 const ContactFormHandler = () => {
-  const [phones, setPhones] = useState<any[]>([]);
-  const [number, setNumber] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const phonebookContext = useContext(PhonebookContext);
 
   const handleChangeNumber = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.value.match(/^[\d ()+-]+$/) || event.target.value === ""){
-      setNumber(event.target.value);
+      phonebookContext.setNumber(event.target.value);
     }
   }
   const handleChangeFirstname = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.value.match(/^[A-Za-z ]+$/) || event.target.value === ""){
-      setFirstName(event.target.value);
+      phonebookContext.setFirstName(event.target.value);
     }
   }
   const handleChangeLastname = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.value.match(/^[A-Za-z ]+$/) || event.target.value === ""){
-      setLastName(event.target.value);
+      phonebookContext.setLastName(event.target.value);
     }
   }
 
   const handleAddMore = () => {
-    setPhones((old) => [...old, {
-      number: number.replace(" ", ""),
+    phonebookContext.setPhones((old: any) => [...old, {
+      number: phonebookContext.number.replace(" ", ""),
     }])
-    setNumber("");
+    phonebookContext.setNumber("");
   }
 
   return {
-    phones,
     handleAddMore,
     handleChangeNumber,
-    number,
     handleChangeFirstname,
     handleChangeLastname,
-    firstName,
-    lastName,
   }
 }
 export default ContactFormHandler;

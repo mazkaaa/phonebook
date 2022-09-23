@@ -29,7 +29,7 @@ const Home: NextPage = (props: any) => {
   useEffect(() => {
     if (localStorage.getItem('contacts') === null) {
       const tempArray = props.contacts as [];
-      const contactDetail: { created_at: string | undefined; first_name: string; last_name: string; id: number | undefined; phones: { number: string }[] }[] = [];
+      const contactDetail: BaseContactInterface[] = [];
       tempArray.forEach((item: BaseContactInterface) => {
         contactDetail.push({
           created_at: item.created_at,
@@ -42,6 +42,7 @@ const Home: NextPage = (props: any) => {
             };
             return phoneParsed;
           }),
+          favorite: false,
         });
       });
       localStorage.setItem('contacts', JSON.stringify(contactDetail));
@@ -72,21 +73,25 @@ const Home: NextPage = (props: any) => {
         </SearchBarViewStyled>
         {!searchView ? (
           <>
-          {phonebookContext.favorites.length > 0 && (
-            <>
-              <h2>Favorites</h2>
-              {phonebookContext.favorites.map((item: BaseContactInterface) => (
-                <PersonCard first_name={item.first_name} last_name={item.last_name} phones={item.phones} key={item.created_at} id={item.id} created_at={item.created_at}/>
-              ))}
-            </>
-          )}
-          <h2>Contacts</h2>
-          {phonebookContext.contacts.slice(0, visible).map((item: BaseContactInterface) => (
-            <PersonCard first_name={item.first_name} last_name={item.last_name} phones={item.phones} key={item.created_at} id={item.id} created_at={item.created_at}/>
-          ))}
-          {phonebookContext.contacts.length > visible && (
-            <LoadmoreButtonStyled onClick={() => setVisible((old) => old + 10)}>Load More</LoadmoreButtonStyled>
-          )}
+            {phonebookContext.contacts.map((item) => (
+              item.favorite && (
+                <PersonCard first_name={item.first_name} last_name={item.last_name} phones={item.phones} key={item.created_at} id={item.id} created_at={item.created_at} favorite={item.favorite}/>
+              )
+            ))}
+            {phonebookContext.contacts.map((item) => (
+              item.favorite && (
+                <PersonCard first_name={item.first_name} last_name={item.last_name} phones={item.phones} key={item.created_at} id={item.id} created_at={item.created_at} favorite={item.favorite}/>
+              )
+            ))}
+            <h2>Contacts</h2>
+            {phonebookContext.contacts.slice(0, visible).map((item) => (
+              !item.favorite && (
+                <PersonCard first_name={item.first_name} last_name={item.last_name} phones={item.phones} key={item.created_at} id={item.id} created_at={item.created_at} favorite={item.favorite}/>
+              )
+            ))}
+            {phonebookContext.contacts.length > visible && (
+              <LoadmoreButtonStyled onClick={() => setVisible((old) => old + 10)}>Load More</LoadmoreButtonStyled>
+            )}
           </>
         ) : (
           <>
@@ -97,7 +102,7 @@ const Home: NextPage = (props: any) => {
             ) : (
               <>
                 {searchResults.map((item) => (
-                  <PersonCard first_name={item.first_name} last_name={item.last_name} phones={item.phones} key={item.created_at} id={item.id} created_at={item.created_at}/>
+                  <PersonCard first_name={item.first_name} last_name={item.last_name} phones={item.phones} key={item.created_at} id={item.id} created_at={item.created_at} favorite={item.favorite}/>
                 ))}
               </>
             )}

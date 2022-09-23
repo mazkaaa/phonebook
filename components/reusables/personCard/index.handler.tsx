@@ -31,43 +31,29 @@ const PersonCardHandler = () => {
     phonebookContext.setClicked(true);
   }
 
-  const handleAddFavorite = (props: BaseContactInterface) => {
-    phonebookContext.addFavorite(props);
-    phonebookContext.deleteContact(props.id);
+  const handleAddFavorite = (id: number | undefined) => {
+    phonebookContext.addFavorite(id);
   }
 
-  const handleRemoveFavorite = (props: BaseContactInterface) => {
-    phonebookContext.deleteFavorite(props.id);
-    phonebookContext.addContact(props);
+  const handleRemoveFavorite = (id: number | undefined) => {
+    phonebookContext.deleteFavorite(id);
   }
 
-  const handleFavorite = (props: BaseContactInterface) => {
-    phonebookContext.favorites.forEach((item: BaseContactInterface) => {
-      if (item.id === props.id) {
-        handleRemoveFavorite(props);
-      }
-    })
+  const handleFavorite = (id: number) => {
     phonebookContext.contacts.forEach((item: BaseContactInterface) => {
-      if (item.id === props.id) {
-        handleAddFavorite(props);
+      if (item.id === id) {
+        if (item.favorite) {
+          handleRemoveFavorite(id);
+        } else {
+          handleAddFavorite(id);
+        }
+        phonebookContext.setClicked(true);
       }
-    })
-    phonebookContext.setClicked(true);
+    });    
   }
 
-  const isFav = (id: number) => {
-    let result = false;
-    phonebookContext.favorites.forEach((item: BaseContactInterface) => {
-      if (item.id === id) {
-        result = true;
-      }
-    })
-    phonebookContext.favorites.forEach((item: BaseContactInterface) => {
-      if (item.id === id) {
-        result = true;
-      }
-    })
-    return result;
+  const isFav = (id: number | undefined) => {
+    
   }
 
   return {

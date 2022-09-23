@@ -27,7 +27,7 @@ const PersonCard = (props: PersonCardInterface) => {
         <>
           {!handler.confirmDeleteView ? (
             <PersonCardOptionStyled>
-              <PersonCardOptionButton onClick={() => handler.handleFavorite(props)}>
+              <PersonCardOptionButton onClick={() => handler.handleFavorite(props.id)}>
                 {handler.isFav(props.id) ? (<ImCross />) : (<FaStar />)}
               </PersonCardOptionButton>
               <PersonCardOptionButton onClick={() => handler.handleClickConfirm(true)}><FaTrashAlt /></PersonCardOptionButton>
