@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect } from "react";
 import { BaseContactInterface } from "../../reusables/baseContactInterface";
+import { PhonebookProviderInterface } from "./index.interface";
 
 export const PhonebookContext = createContext({
   contacts: {} as BaseContactInterface[],
@@ -11,8 +12,8 @@ export const PhonebookContext = createContext({
   addFavorite: (id: number) => {},
   clicked: {} as boolean,
   setClicked: (value: boolean) => {},
-  contact: {} as any[],
-  setContact: (value: any[]) => {},
+  contact: {} as PhonebookProviderInterface[],
+  setContact: (props: PhonebookProviderInterface[]) => {},
   phones: {} as any[],
   setPhones: (value: any) => {},
   number: {} as string,
@@ -33,7 +34,7 @@ export const PhonebookProvider = ({ children }: any) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
 
-  const [contact, setContact] = useState<BaseContactInterface[]>([]);
+  const [contact, setContact] = useState<PhonebookProviderInterface[]>([]);
 
   const deleteContact = (id: number) => {
     setContacts((old) => old.filter((item) => item.id !== id));

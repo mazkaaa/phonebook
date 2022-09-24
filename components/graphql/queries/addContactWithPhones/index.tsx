@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-const addContactWithPhones = gql`
+const AddContactWithPhones = gql`
 mutation AddContactWithPhones(
   $first_name: String!, 
   $last_name: String!, 
@@ -28,4 +28,4 @@ insert_contact(
 
   `;
 
-export default addContactWithPhones;
+export default AddContactWithPhones;

@@ -1,13 +1,16 @@
+import { useMutation } from "@apollo/client";
 import Link from "next/link";
 import { NextPage } from "next/types";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { PhonebookContext } from "../../components/context/PhonebookProvider";
+import AddContactWithPhones from "../../components/graphql/queries/addContactWithPhones";
 import ContactForm from "../../components/reusables/contactForm";
 import Container from "../../components/reusables/container";
 import DoneContactButton from "../../components/reusables/doneContactButton";
 
 const Form: NextPage = () => {
   const phonebookContext = useContext(PhonebookContext);
+  const [addContactWithPhones, { data, loading, error }] = useMutation(AddContactWithPhones)
 
   const handleDone = () => {
     if (phonebookContext.firstName.length > 0 &&
@@ -18,9 +21,20 @@ const Form: NextPage = () => {
         last_name: phonebookContext.firstName,
         phones: phonebookContext.phones
       }])
-      console.log("test")
     }
   }
+
+  useEffect(() => {
+    if (phonebookContext.contact.length > 0) {
+      addContactWithPhones({
+        variables: {
+          first_name: phonebookContext.contact[0].first_name,
+          last_name: phonebookContext.contact[0].last_name,
+          phones: phonebookContext.contact[0].phones,
+        }
+      })
+    }
+  }, [addContactWithPhones, phonebookContext.contact, phonebookContext.contact.length])
   
   return (
     <Container>
