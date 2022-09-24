@@ -8,6 +8,7 @@ import getContactList from '../components/graphql/queries/getContactList';
 import AddContactButton from '../components/reusables/addContactButton';
 import { BaseContactInterface } from '../components/reusables/baseContactInterface';
 import Container from '../components/reusables/container';
+import { DivFlexCol } from '../components/reusables/divFlexCol/index.style';
 import { LoadmoreButtonStyled } from '../components/reusables/loadMoreButton/index.style';
 import PersonCard from '../components/reusables/personCard';
 import { BackButton, SearchBarStyled } from '../components/reusables/searchBar/index.style';
@@ -24,6 +25,16 @@ const Home: NextPage = (props: any) => {
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
+  };
+
+  const isContainFav = () => {
+    let result = false;
+    phonebookContext.contacts.forEach((item) => {
+      if (item.favorite) {
+        result = true;
+      }
+    })
+    return result;
   };
 
   useEffect(() => {
@@ -51,7 +62,7 @@ const Home: NextPage = (props: any) => {
 
   useEffect(() => {
     if (searchView) {
-      setTotalData([...phonebookContext.favorites, ...phonebookContext.contacts]);
+      setTotalData([...phonebookContext.contacts]);
     }
   }, [searchView]);
 
@@ -73,25 +84,23 @@ const Home: NextPage = (props: any) => {
         </SearchBarViewStyled>
         {!searchView ? (
           <>
-            {phonebookContext.contacts.map((item) => (
-              item.favorite && (
-                <PersonCard first_name={item.first_name} last_name={item.last_name} phones={item.phones} key={item.created_at} id={item.id} created_at={item.created_at} favorite={item.favorite}/>
-              )
-            ))}
+            {isContainFav() && (<h2>Favorites</h2>)}
             {phonebookContext.contacts.map((item) => (
               item.favorite && (
                 <PersonCard first_name={item.first_name} last_name={item.last_name} phones={item.phones} key={item.created_at} id={item.id} created_at={item.created_at} favorite={item.favorite}/>
               )
             ))}
             <h2>Contacts</h2>
-            {phonebookContext.contacts.slice(0, visible).map((item) => (
-              !item.favorite && (
-                <PersonCard first_name={item.first_name} last_name={item.last_name} phones={item.phones} key={item.created_at} id={item.id} created_at={item.created_at} favorite={item.favorite}/>
-              )
-            ))}
-            {phonebookContext.contacts.length > visible && (
-              <LoadmoreButtonStyled onClick={() => setVisible((old) => old + 10)}>Load More</LoadmoreButtonStyled>
-            )}
+            <DivFlexCol>
+              {phonebookContext.contacts.slice(0, visible).map((item) => (
+                !item.favorite && (
+                  <PersonCard first_name={item.first_name} last_name={item.last_name} phones={item.phones} key={item.created_at} id={item.id} created_at={item.created_at} favorite={item.favorite}/>
+                )
+              ))}
+              {phonebookContext.contacts.length > visible && (
+                <LoadmoreButtonStyled onClick={() => setVisible((old) => old + 10)}>Load More</LoadmoreButtonStyled>
+              )}
+            </DivFlexCol>
           </>
         ) : (
           <>

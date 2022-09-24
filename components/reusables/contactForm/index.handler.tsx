@@ -27,11 +27,17 @@ const ContactFormHandler = () => {
     phonebookContext.setNumber("");
   }
 
+  const containName = (firstName: string, lastName: string) => {
+    const name = firstName + " " + lastName;
+    return phonebookContext.contacts.some((item) => (item.first_name + " " + item.last_name) === name);
+  }
+
   return {
     handleAddMore,
     handleChangeNumber,
     handleChangeFirstname,
     handleChangeLastname,
+    containName,
   }
 }
 export default ContactFormHandler;

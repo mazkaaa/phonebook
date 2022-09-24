@@ -3,13 +3,12 @@ import { BaseContactInterface } from "../../reusables/baseContactInterface";
 
 export const PhonebookContext = createContext({
   contacts: {} as BaseContactInterface[],
-  deleteContact: (id: number | undefined) => {},
+  deleteContact: (id: number) => {},
   addContact: (props: BaseContactInterface) => {},
   loading: {} as boolean,
   setLoading: (value: boolean) => {},
-  deleteFavorite: (id: number | undefined) => {},
-  addFavorite: (id: number | undefined) => {},
-  favorites: {} as BaseContactInterface[],
+  deleteFavorite: (id: number) => {},
+  addFavorite: (id: number) => {},
   clicked: {} as boolean,
   setClicked: (value: boolean) => {},
   contact: {} as any[],
@@ -22,8 +21,6 @@ export const PhonebookContext = createContext({
   setFirstName: (value: string) => {},
   lastName: {} as string,
   setLastName: (value: string) => {},
-  isHaveSame: () => {},
-  contain: {} as Boolean,
 });
 
 export const PhonebookProvider = ({ children }: any) => {
@@ -38,9 +35,7 @@ export const PhonebookProvider = ({ children }: any) => {
 
   const [contact, setContact] = useState<BaseContactInterface[]>([]);
 
-  const [contain, setContain] = useState(false);
-
-  const deleteContact = (id: number | undefined) => {
+  const deleteContact = (id: number) => {
     setContacts((old) => old.filter((item) => item.id !== id));
   }
 
@@ -48,7 +43,7 @@ export const PhonebookProvider = ({ children }: any) => {
     setContacts((old) => [...old, props]);
   }
 
-  const addFavorite = (id: number | undefined) => {
+  const addFavorite = (id: number) => {
     const tempArray: BaseContactInterface[] = contacts;
     tempArray.forEach((item, index) => {
       if (item.id === id) {
@@ -58,7 +53,7 @@ export const PhonebookProvider = ({ children }: any) => {
     });
   }
 
-  const deleteFavorite = (id: number | undefined) => {
+  const deleteFavorite = (id: number) => {
     const tempArray: BaseContactInterface[] = contacts;
     tempArray.forEach((item, index) => {
       if (item.id === id) {
@@ -85,25 +80,24 @@ export const PhonebookProvider = ({ children }: any) => {
   return (
     <PhonebookContext.Provider value={{
       contacts,
-      addContact,
       deleteContact,
-      loading,
-      setLoading,
+      addContact,
       addFavorite,
+      contact,
       deleteFavorite,
       clicked,
-      setClicked,
-      contact,
-      setContact,
       firstName,
       lastName,
+      loading,
       number,
       phones,
+      setClicked,
+      setContact,
       setFirstName,
       setLastName,
+      setLoading,
       setNumber,
-      setPhones,
-      contain
+      setPhones
     }}>
       {children}
     </PhonebookContext.Provider>

@@ -15,12 +15,7 @@ const PersonCardHandler = () => {
     setConfirmDeleteView(value);
   };
 
-  const handleDelete = (id: number | undefined) => {
-    phonebookContext.favorites.forEach((item: BaseContactInterface) => {
-      if (item.id === id) {
-        phonebookContext.deleteFavorite(id);
-      }
-    });
+  const handleDelete = (id: number) => {
     phonebookContext.contacts.forEach((item: BaseContactInterface) => {
       if (item.id === id) {
         phonebookContext.deleteContact(id);
@@ -31,11 +26,11 @@ const PersonCardHandler = () => {
     phonebookContext.setClicked(true);
   }
 
-  const handleAddFavorite = (id: number | undefined) => {
+  const handleAddFavorite = (id: number) => {
     phonebookContext.addFavorite(id);
   }
 
-  const handleRemoveFavorite = (id: number | undefined) => {
+  const handleRemoveFavorite = (id: number) => {
     phonebookContext.deleteFavorite(id);
   }
 
@@ -52,8 +47,8 @@ const PersonCardHandler = () => {
     });    
   }
 
-  const isFav = (id: number | undefined) => {
-    
+  const isFav = (id: number) => {
+    return phonebookContext.contacts[phonebookContext.contacts.findIndex((item) => item.id === id)].favorite;
   }
 
   return {
