@@ -4,8 +4,6 @@ import client from '../components/graphql/client'
 import ContextProvider from '../components/context'
 import Layout from '../components/layouts'
 
-export const config = { amp: true }
-
 // eslint-disable-next-line require-jsdoc
 function MyApp({ Component, pageProps }: AppProps) {
   return (
