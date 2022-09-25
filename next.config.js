@@ -8,4 +8,5 @@ module.exports = withPWA({
     skipWaiting: true,
   },
   reactStrictMode: true,
+  target: 'serverless',
 });
