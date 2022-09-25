@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect } from "react";
 import { BaseContactInterface } from "../../reusables/baseContactInterface";
-import { PhonebookProviderInterface } from "./index.interface";
+import { InputPhonesInterface, PhonebookProviderInterface } from "./index.interface";
 
 export const PhonebookContext = createContext({
   contacts: {} as BaseContactInterface[],
@@ -14,25 +14,32 @@ export const PhonebookContext = createContext({
   setClicked: (value: boolean) => {},
   contact: {} as PhonebookProviderInterface[],
   setContact: (props: PhonebookProviderInterface[]) => {},
-  phones: {} as any[],
-  setPhones: (value: any) => {},
+  inputPhones: {} as InputPhonesInterface,
+  setInputPhones: (value: InputPhonesInterface) => {},
   number: {} as string,
   setNumber: (value: string) => {},
-  firstName: {} as string,
-  setFirstName: (value: string) => {},
-  lastName: {} as string,
-  setLastName: (value: string) => {},
+  inputFirstName: {} as string,
+  setInputFirstName: (value: string) => {},
+  inputLastName: {} as string,
+  setInputLastName: (value: string) => {},
+  alert: {} as boolean,
+  setAlert: (value: boolean) => {}
 });
 
 export const PhonebookProvider = ({ children }: any) => {
   const [contacts, setContacts] = useState<BaseContactInterface[]>([]);
   const [loading, setLoading] = useState(false);
   const [clicked, setClicked] = useState(false);
+  const [alert, setAlert] = useState(false);
 
-  const [phones, setPhones] = useState<any[]>([]);
+  const [inputPhones, setInputPhones] = useState<InputPhonesInterface>({
+    phones: [{
+      number: ""
+    }]
+  });
   const [number, setNumber] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [inputFirstName, setInputFirstName] = useState("");
+  const [inputLastName, setInputLastName] = useState("");
 
   const [contact, setContact] = useState<PhonebookProviderInterface[]>([]);
 
@@ -42,6 +49,7 @@ export const PhonebookProvider = ({ children }: any) => {
 
   const addContact = (props: BaseContactInterface) => {
     setContacts((old) => [...old, props]);
+    setAlert(true);
   }
 
   const addFavorite = (id: number) => {
@@ -69,6 +77,7 @@ export const PhonebookProvider = ({ children }: any) => {
       localStorage.setItem("contacts", JSON.stringify(contacts));
       setClicked(false);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [contacts.length, contacts, clicked]);
 
   useEffect(() => {
@@ -87,18 +96,20 @@ export const PhonebookProvider = ({ children }: any) => {
       contact,
       deleteFavorite,
       clicked,
-      firstName,
-      lastName,
+      inputFirstName,
+      inputLastName,
       loading,
       number,
-      phones,
+      inputPhones,
       setClicked,
       setContact,
-      setFirstName,
-      setLastName,
+      setInputFirstName,
+      setInputLastName,
       setLoading,
       setNumber,
-      setPhones
+      setInputPhones,
+      alert,
+      setAlert
     }}>
       {children}
     </PhonebookContext.Provider>

@@ -6,6 +6,7 @@ import { PhonebookContext } from '../components/context/PhonebookProvider';
 import client from '../components/graphql/client';
 import getContactList from '../components/graphql/queries/getContactList';
 import AddContactButton from '../components/reusables/addContactButton';
+import Alert from '../components/reusables/alert';
 import { BaseContactInterface } from '../components/reusables/baseContactInterface';
 import Container from '../components/reusables/container';
 import { DivFlexCol } from '../components/reusables/divFlexCol/index.style';
@@ -58,24 +59,33 @@ const Home: NextPage = (props: any) => {
       });
       localStorage.setItem('contacts', JSON.stringify(contactDetail));
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (searchView) {
       setTotalData([...phonebookContext.contacts]);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchView]);
 
   useEffect(() => {
     const results = totalData.filter((item) => (item.first_name + " " + item.last_name).toLowerCase().includes(searchTerm));
     setSearchResults(results);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchTerm]);
+
   return (
     <div>
+      <Alert title="Success!" message="Successfully added new contact!" condition={phonebookContext.alert} />
       {!searchView && (
-        <Link href={"/form"}>
-          <a><AddContactButton /></a>
-        </Link>
+        <>
+          {!phonebookContext.alert && (
+            <Link href="/form">
+              <a><AddContactButton /></a>
+            </Link>
+          )}
+        </>
       )}
       <Container>
         <SearchBarViewStyled>
